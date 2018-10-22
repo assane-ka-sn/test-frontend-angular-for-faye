@@ -3,7 +3,7 @@
 <div class="card-header" *ngIf="typechat && typechat=='user' && tchat_user"><i class="fas fa-table"></i> User {{tchat_user.pseudo}}</div>
 
 <div class="card-body" >
-  <div class="panel-body"   style="overflow-y: scroll; height: 75vh">
+  <div class="panel-body"   style="overflow-y: scroll; height: 70vh">
     <ul class="chat">
       <li *ngFor="let item of listeMessages" [ngClass]="{'clearfix': true, 'left': item.token!=token, 'right': item.token==token}">
         <span [ngClass]="{'chat-img': true, 'pull-left': item.token!=token, 'pull-right': item.token==token}">
@@ -45,7 +45,7 @@
     </form>
   </nav>
 
-  <nav *ngIf="typechat=='user'" class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav *ngIf="typechat=='user'" class="navbar navbar-expand-lg navbar-light bg-light custom-control-inline" >
     <form  class="form-inline" (ngSubmit)="envoiMessageuser()" style="text-align: left" name="">
       <input type="text" style="width: 50rem" [(ngModel)]="this.messageAenvoye"  name="messageenvoiroom" class="form-control" placeholder="message" aria-label="message" aria-describedby="basic-addon2"   autocomplete="off" >
       <button class="btn btn-outline-secondary" [disabled]="!this.messageAenvoye || this.messageAenvoye==''" type="submit">Send</button>
