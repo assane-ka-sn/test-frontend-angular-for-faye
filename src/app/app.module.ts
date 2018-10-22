@@ -11,11 +11,9 @@ import { AppComponent } from './app.component';
 import {LoginComponent} from "./component/loginComponent/login.component";
 import {ApiService} from "./services/api-server";
 import {AuhtService} from "./services/auth-server";
-import {ChatroomComponent} from "./component/chatroomComponent/chatroom.component";
 import {DashboardComponent} from "./component/dashboardComponent/dashboard.component";
 import {AuthGuard} from "./guard/auth-guard";
-import {ChatgroupComponent} from "./component/chatgroupComponent/chatgroup.component";
-import {ChatuserComponent} from "./component/chatuserComponent/chatuser.component";
+import {ChatComponent} from "./component/chatComponent/chat.component";
 
 
 @NgModule({
@@ -23,9 +21,7 @@ import {ChatuserComponent} from "./component/chatuserComponent/chatuser.componen
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    ChatroomComponent,
-    ChatgroupComponent,
-    ChatuserComponent,
+    ChatComponent,
 
   ],
   imports: [

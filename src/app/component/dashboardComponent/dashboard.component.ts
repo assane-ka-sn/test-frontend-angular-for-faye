@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public groupe_id: Number;
   public user_id: Number;
   public isCollapsed = false;
+  public typechat:string = 'room';
   public objDate: Date = new Date();
 
   constructor(private router: Router, private api: ApiService,private modalService: BsModalService)  {  }
@@ -141,6 +142,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public demarrerchatroom(){
     this.isclickGroup = false
     this.isclickUser = false
+    this.typechat = 'room'
     this.isclickRoom = true
   }
 
@@ -150,6 +152,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.groupe_id = Number(id);
       this.isclickUser = false
       this.isclickRoom = false
+      this.typechat = 'groupe'
       this.isclickGroup = true
     }, 5);
   }
@@ -160,6 +163,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.user_id = Number(id);
       this.isclickRoom = false
       this.isclickGroup = false
+      this.typechat = 'user'
       this.isclickUser = true
     }, 5);
   }

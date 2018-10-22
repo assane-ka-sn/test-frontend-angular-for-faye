@@ -70,9 +70,9 @@
   </ul>
 
   <div class="card" style="width: 100%; height: 90vh">
-    <app-chatgroup *ngIf="isclickGroup" [groupe_id]="groupe_id"></app-chatgroup>
-    <app-chatroom *ngIf="isclickRoom"></app-chatroom>
-    <app-chatuser *ngIf="isclickUser" [tchat_user_id]="user_id"></app-chatuser>
+    <app-chat [typechat]="typechat" *ngIf="isclickGroup"  [tchat_user_id]="0" [groupe_id]="groupe_id"></app-chat>
+    <app-chat [typechat]="typechat" *ngIf="isclickRoom" [tchat_user_id]="0" [groupe_id]="0"></app-chat>
+    <app-chat [typechat]="typechat" *ngIf="isclickUser" [tchat_user_id]="user_id" [groupe_id]="0"></app-chat>
   </div>
 
 </div>
