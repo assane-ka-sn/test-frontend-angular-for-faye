@@ -1,0 +1,34 @@
+<div class="card-header" *ngIf="tchat_user">
+  <i class="fas fa-table"></i> User {{tchat_user.pseudo}}
+</div>
+<div class="card-body" >
+  <div class="panel-body"   style="overflow-y: scroll; height: 75vh">
+    <ul class="chat">
+      <li *ngFor="let item of listeMessages" [ngClass]="{'clearfix': true, 'left': item.token!=token, 'right': item.token==token}">
+        <span [ngClass]="{'chat-img': true, 'pull-left': item.token!=token, 'pull-right': item.token==token}">
+          <img src="{{item.token==token ?'http://placehold.it/50/FA6F57/fff':'http://placehold.it/50/55C1E7/fff'}}" alt="User Avatar" class="img-circle" />
+        </span>
+        <div class="chat-body clearfix">
+          <div class="header">
+            <strong [ngClass]="{'primary-font': true, 'pull-right': item.token==token}">{{item.token==token ?'Moi':item.pseudo}}</strong>
+            <small [ngClass]="{'text-muted': true, 'pull-right': item.token!=token}"><i class="fa fa-clock-o fa-fw"></i> {{item.date_envoi}} ago</small>
+          </div>
+          <p *ngIf="item.format_message=='texte'">{{item.message}}</p>
+          <a *ngIf="item.format_message!='texte'" href="{{api.link}}/file/showfile/{{item.generate_name}}" class="btn btn-social btn-dropbox">
+            <i class="fa fa-dropbox"></i> {{(item.message.length>16)? (item.message | slice:0:9)+'..'+(item.message | slice:(item.message.length-7):item.message.length):(item.message)}}
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <form  class="form-inline" (ngSubmit)="envoiMessageUser()" style="text-align: left" name="">
+      <input type="text" style="width: 50rem" [(ngModel)]="this.messageAenvoye"  name="messageenvoiroom" class="form-control" placeholder="message" aria-label="message" aria-describedby="basic-addon2"   autocomplete="off" >
+      <button class="btn btn-outline-secondary" [disabled]="!this.messageAenvoye || this.messageAenvoye==''" type="submit">Send</button>
+    </form>
+    <form  class="form-inline image-upload" style="margin-left: 2px">
+      <button for="file-input" (click)="fileInput.click()" class="btn btn-outline-secondary" title="Fichier joint"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
+      <input id="file-input" type="file" (change)="handleFileInput($event)" name="uploads" #fileInput />
+    </form>
+  </nav>
+</div>

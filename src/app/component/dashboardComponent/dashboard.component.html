@@ -1,0 +1,130 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark static-top  fixed-top"  style="color: white">
+
+  <a class="navbar-brand mr-1">ISS AFRIQUE {{userConnect.role | uppercase}}</a>
+
+  <button class="btn btn-link btn-sm text-white order-1 order-sm-0" (click)="isCollapsed = !isCollapsed">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Navbar Search -->
+  <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <div class="input-group"></div>
+  </form>
+
+  <!-- Navbar -->
+  <ul class="navbar-nav ml-auto ml-md-0" style="z-index: 2">
+    <li class="nav-item no-arrow mx-1">
+      <a *ngIf="userConnect.role=='admin'" (click)="openModalNewMemebre(modalNewMembre)" title="new membre">
+        <i class="fa fa-user-circle" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="nav-item no-arrow mx-1">
+      <a class="dropdown-item" (click)="deconnexion()" data-toggle="modal" data-target="#logoutModal" title="déconnecter"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+    </li>
+  </ul>
+</nav>
+
+
+<div id="wrapper" class=" fixed-top" style="margin-top: 3.5rem; overflow-y: scroll;height: 100vh;">
+
+  <!-- Sidebar -->
+  <ul [ngClass]="{'sidebar': true, 'navbar-nav': true, 'toggled': isCollapsed}">
+    <li class="nav-item active ">
+      <a class="nav-link">
+        <i class="fas fa-fw fa-chart-area"></i><span>Groupes</span>
+      </a>
+      <ul class="navbar-nav"  style="overflow-y: auto;height: 25vh;">
+        <li class="nav-item">
+          <a class="nav-link" (click)="demarrerchatroom()">ROOM</a>
+        </li>
+        <li class="nav-item" *ngFor="let item of listeGroupes; let i = index;">
+          <a class="nav-link" (click)="demarrerchatgroup(item.id)">
+            {{item.nom | uppercase}}
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item active ">
+      <a class="nav-link">
+        <i class="fas fa-fw fa-chart-area"></i><span>Membres</span>
+      </a>
+      <ul class="navbar-nav"  style="overflow-y: auto;height: 45vh;">
+        <li class="nav-item" *ngFor="let user of listeUsers; let i = index;">
+          <a class="nav-link" (click)="demarrerchatuser(user.id)" >
+            {{user.pseudo | uppercase}}
+            <small id="ismobile">depuis {{(user.date_connection | date:'yyyy-mm-dd')==(today | date:'yyyy-mm-dd')?(user.date_connection | date:'hh:mm:ss'):(user.date_connection | date:'dd/mm/yyyy')}}</small>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <form class="d-none d-md-inline-block form-inline ml-auto">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </ul>
+
+  <div class="card" style="width: 100%; height: 90vh">
+    <app-chatgroup *ngIf="isclickGroup" [groupe_id]="groupe_id"></app-chatgroup>
+    <app-chatroom *ngIf="isclickRoom"></app-chatroom>
+    <app-chatuser *ngIf="isclickUser" [tchat_user_id]="user_id"></app-chatuser>
+  </div>
+
+</div>
+
+
+
+
+<ng-template #modalNewMembre let-c="close" let-d="dismiss">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">New membre</h5>
+      <hr>
+      <div class="form-group" style="color: red ;" *ngIf="errorAddNewUser!=''">{{errorAddNewUser | uppercase}}.</div>
+      <div class="form-group row">
+        <label for="newClientPseudo" class="col-sm-3 col-form-label">Pseudo</label>
+        <div class="col-sm-9">
+          <input type="text" [(ngModel)]="newuser.pseudo" class="form-control" id="newClientPseudo" placeholder="Enter Pseudo">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="newClientRole" class="col-sm-3 col-form-label">Role</label>
+        <div class="col-sm-9">
+          <select class="form-control" id="newClientRole" [(ngModel)]="newuser.role_id">
+            <option value="0">Veuillez choisir</option>
+            <option *ngFor="let item of listeRoles; let i = index;" value="{{item.id}}">{{item.nom}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="newClientLogin" class="col-sm-3 col-form-label">Login</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="newClientLogin" [(ngModel)]="newuser.login" placeholder="Enter Login">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="newClientPassword" class="col-sm-3 col-form-label">Password</label>
+        <div class="col-sm-9">
+          <input type="password" class="form-control" id="newClientPassword" [(ngModel)]="newuser.pwd" placeholder="Enter Password">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="newClientConfirmPassword" class="col-sm-3 col-form-label">Confirm Password</label>
+        <div class="col-sm-9">
+          <input type="password" [ngClass]="{'form-control': true, 'is-invalid': inputconfpwd}" id="newClientConfirmPassword" [(ngModel)]="newuser.confpwd" placeholder="Confirm password">
+          <div class="invalid-feedback">
+            Password non conform.
+          </div>
+        </div>
+      </div>
+      <button (click)="addmembre()" [disabled]="!newuser.pseudo || !newuser.role_id || newuser.role_id=='0' || !newuser.login || !newuser.pwd || !newuser.confpwd" class="btn btn-outline-primary my-2 my-sm-0" title="ajouter new membre">Ajouter</button>
+    </div>
+  </div>
+</ng-template>
+
+
