@@ -1,6 +1,6 @@
-<div class="card-header" *ngIf="typechat && typechat=='room'"><i class="fas fa-table"></i> ROOM</div>
-<div class="card-header" *ngIf="typechat && typechat=='groupe' && groupe"><i class="fas fa-table"></i> Group {{groupe.nom}}</div>
-<div class="card-header" *ngIf="typechat && typechat=='user' && tchat_user"><i class="fas fa-table"></i> User {{tchat_user.pseudo}}</div>
+<div class="card-header" *ngIf="typechat && typechat=='room'"><i class="fa fa-table"></i> ROOM</div>
+<div class="card-header" *ngIf="typechat && typechat=='groupe' && groupe"><i class="fa fa-table"></i> Group {{groupe.nom}}</div>
+<div class="card-header" *ngIf="typechat && typechat=='user' && tchat_user"><i class="fa fa-table"></i> User {{tchat_user.pseudo}}</div>
 
 <div class="card-body" >
   <div class="panel-body"   style="overflow-y: scroll; height: 70vh">
@@ -23,18 +23,18 @@
     </ul>
   </div>
 
-  <nav *ngIf="typechat=='room'" class="navbar navbar-expand-lg navbar-light bg-light">
-    <form  class="form-inline" (ngSubmit)="envoiMessageroom()" style="text-align: left" name="">
+  <nav *ngIf="typechat=='room'" class="navbar-nav navbar-expand-lg navbar-light bg-light">
+    <form  class="form-inline" (ngSubmit)="envoiMessageroom()" style="text-align: left" name=""  aria-describedby="basic-addon2">
       <input type="text" style="width: 50rem" [(ngModel)]="this.messageAenvoye"  name="messageenvoiroom" class="form-control" placeholder="message" aria-label="message" aria-describedby="basic-addon2"   autocomplete="off" >
       <button class="btn btn-outline-secondary" [disabled]="!this.messageAenvoye || this.messageAenvoye==''" type="submit">Send</button>
     </form>
-    <form  class="form-inline image-upload" style="margin-left: 2px">
+    <form  class="form-inline image-upload" style="margin-left: 2px"  id="basic-addon2">
       <button for="file-input" (click)="fileInputroom.click()" class="btn btn-outline-secondary" title="Fichier joint"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
       <input type="file" (change)="handleFileInputroom($event)" name="uploads" #fileInputroom />
     </form>
   </nav>
 
-  <nav *ngIf="typechat=='groupe'" class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav *ngIf="typechat=='groupe'" class="navbar-nav navbar-expand-lg navbar-light bg-light">
     <form  class="form-inline" (ngSubmit)="envoiMessagegroupe()" style="text-align: left" name="">
       <input type="text" style="width: 50rem" [(ngModel)]="this.messageAenvoye"  name="messageenvoiroom" class="form-control" placeholder="message" aria-label="message" aria-describedby="basic-addon2"   autocomplete="off" >
       <button class="btn btn-outline-secondary" [disabled]="!this.messageAenvoye || this.messageAenvoye==''" type="submit">Send</button>
@@ -45,7 +45,7 @@
     </form>
   </nav>
 
-  <nav *ngIf="typechat=='user'" class="navbar navbar-expand-lg navbar-light bg-light custom-control-inline" >
+  <nav *ngIf="typechat=='user'" class="navbar-nav navbar-expand-lg navbar-light bg-light" >
     <form  class="form-inline" (ngSubmit)="envoiMessageuser()" style="text-align: left" name="">
       <input type="text" style="width: 50rem" [(ngModel)]="this.messageAenvoye"  name="messageenvoiroom" class="form-control" placeholder="message" aria-label="message" aria-describedby="basic-addon2"   autocomplete="off" >
       <button class="btn btn-outline-secondary" [disabled]="!this.messageAenvoye || this.messageAenvoye==''" type="submit">Send</button>
